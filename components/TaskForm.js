@@ -10,28 +10,34 @@ class TaskForm extends React.Component {
         super(props)
 
         this.state = {
-            id: '',
-            description: '',
-            isDone: false
+            task: {
+                id: '',
+                description: '',
+                isDone: false,
+                createdOn: null
+            }
         }
-    }
-
-    componentDidMount() {
-        if (this.props.task && this.props.task.id) {
-            this.setState({ ...this.state, ...this.props.task })
-        } else {
-            this.setState({ ...this.state, id: ID() })
-        }
+        this.saveTask = this.saveTask.bind(this)
     }
 
     saveTask() {
-        console.log('saving')
-        console.log(this.state)
-        // this.props.save({ ...this.state })
-        // this.toggleForm()
+        const { task } = this.state
+
+        if (!task.id) {
+            this.setState({...this.state, task: { ...this.state.task, id: ID(), createdOn: new Date()}}, () => {
+                this.props.save({ ...this.state.task })
+                this.closeThis();
+            })
+        } else {
+            this.props.save({ ...this.state.task })
+            this.closeThis()
+        }
     }
 
     closeThis() {
+        this.setState({ ...this.state, task: {
+            id: '', description: '', isDone: false
+        }})
         this.props.closeForm(false)
     }
 
@@ -46,13 +52,13 @@ class TaskForm extends React.Component {
                     <Body style={{ marginTop: 50, padding: 10 }}>
                         <Item>
                             <Icon type="FontAwesome" name='pencil' />
-                            <Input placeholder='Icon Textbox' onChange={(text) => this.setState({ ...this.state, description: text })}/>
+                            <Input placeholder='Description' onChangeText={(text) => this.setState({ ...this.state, task: { ...this.state.task, description: text }})}/>
                         </Item>
                         <View style={{flex: 1, flexDirection:'row', alignItems: 'flex-end', width: '100%'}}>
                             <Button danger style={styles.formBtn} onPress={() => this.closeThis()}>
                                 <Text>Cancel</Text>
                             </Button>
-                            <Button success style={styles.formBtn} onPress={() => this.saveTask()}>
+                            <Button success style={styles.formBtn} onPress={() => this.saveTask()} disabled={!this.state.task.description}>
                                 <Text>Save</Text>
                             </Button>
                         </View>

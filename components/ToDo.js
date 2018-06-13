@@ -1,6 +1,7 @@
 import React from 'react'
 import { Text, ScrollView, StyleSheet } from 'react-native'
 import { Container, List, ListItem, Icon, Fab, View } from 'native-base'
+import TaskListItem from './TaskListItem'
 
 
 class ToDo extends React.Component {
@@ -21,7 +22,7 @@ class ToDo extends React.Component {
                     <List>
                         {
                             toDoList && toDoList.length ?
-                                toDoList.map(task => <TaskListItem task={task} key={task.id} />)
+                                toDoList.map(task => <TaskListItem task={task} key={task.id} save={this.props.save} />)
                                 : <ListItem><Text>No tasks here</Text></ListItem>
                         }
                     </List>
