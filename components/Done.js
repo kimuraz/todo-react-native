@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView } from 'react-native'
+import { ScrollView, Text } from 'react-native'
 import { List, ListItem } from 'native-base'
 import TaskListItem from './TaskListItem';
 
@@ -9,7 +9,7 @@ class Done extends React.Component {
     }
 
     render() {
-        const doneList = this.props.list.filter(t => t.isDone)
+        const doneList = this.props.list ? this.props.list.filter(t => t.isDone) : []
         return (
             <ScrollView>
                 <List>

@@ -29,7 +29,7 @@ class TaskListItem extends React.Component {
                     : null }
                 <Body style={{ flex: 1, alignItems: 'flex-start', marginLeft: 10}}>
                     <Text>{ task.description }</Text>
-                    <Subtitle>Criado em: { moment(task.createdOn).format('lll') }</Subtitle>
+                    <Subtitle style={{color: 'black'}}>Criado em: { moment(task.createdOn).format('lll') }</Subtitle>
                 </Body>
             </ListItem>
         )
